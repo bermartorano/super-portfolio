@@ -1,4 +1,4 @@
-# from django.shortcuts import render
+from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Profile, Project
@@ -14,6 +14,14 @@ class ProfileViewSet(ModelViewSet):
         if self.request.method == 'GET':
             return [AllowAny()]
         return [IsAuthenticated()]
+
+    def retrieve(self, request, *args, **kwargs):
+        if request.method == 'GET':
+            profile = self.get_object()
+            context = {"profile": profile}
+
+            return render(request, "profile_detail.html", context)
+        return super().retrieve(request, *args, **kwargs)
 
 
 class ProjectViewSet(ModelViewSet):
