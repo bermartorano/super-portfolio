@@ -20,20 +20,24 @@ class CertificateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class CertificateNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certificate
+        fields = ['name']
+
+
 class CertifyingInstitutionSerializer(serializers.ModelSerializer):
-    certificates = CertificateSerializer(many=True)
+    certificates = CertificateNestedSerializer(many=True)
 
     class Meta:
         model = CertifyingInstitution
         fields = "__all__"
 
     def create(self, validated_data):
-        print("********** começo do create")
         C_INST = "certifying_institution"
         certificates_data = validated_data.pop("certificates")
         certtifying_inst = CertifyingInstitution.objects.create(
             **validated_data)
-        print("********** criação do CI")
         for certificate in certificates_data:
             certificate_and_institution = {
                 **certificate,

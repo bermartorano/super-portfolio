@@ -35,10 +35,10 @@ class ProjectViewSet(ModelViewSet):
 class CertificateViewSet(ModelViewSet):
     queryset = Certificate.objects.all()
     serializer_class = CertificateSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
 
 class CertifyingInstitutionViewSet(ModelViewSet):
     queryset = CertifyingInstitution.objects.all()
     serializer_class = CertifyingInstitutionSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
