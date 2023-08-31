@@ -36,13 +36,11 @@ class CertifyingInstitutionSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         C_INST = "certifying_institution"
         certificates_data = validated_data.pop("certificates")
-        certtifying_inst = CertifyingInstitution.objects.create(
+        certifying_inst = CertifyingInstitution.objects.create(
             **validated_data)
         for certificate in certificates_data:
-            certificate_and_institution = {
-                **certificate,
-                C_INST: certtifying_inst}
+            certificate[C_INST] = certifying_inst
             CertificateSerializer().create(
-                validated_data=certificate_and_institution)
+                validated_data=certificate)
 
-        return certtifying_inst
+        return certifying_inst
