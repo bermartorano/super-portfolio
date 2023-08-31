@@ -30,3 +30,27 @@ class Project(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class CertifyingInstitution(models.Model):
+    name = models.CharField(max_length=100, null=False, blank=False)
+    url = models.URLField(null=False, blank=False)
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Certificate(models.Model):
+    name = models.CharField(max_length=100, null=False, blank=False)
+    certifying_institution = models.ForeignKey(
+        CertifyingInstitution,
+        on_delete=models.CASCADE,
+        related_name="certificates",
+        blank=False,
+        null=False,
+    )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    profiles = models.ManyToManyField(
+        "Profile",
+        related_name="certificates",
+    )
